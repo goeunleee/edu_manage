@@ -5,6 +5,7 @@ import { getStudentData } from "../api/api";
 import { ReportData } from "../type/commonApi";
 import Check_Icon from "../icons/check.svg";
 import Filter_Icon from "../icons/filter.svg";
+import styled from "styled-components";
 import {
 	Container,
 	GridContainer,
@@ -29,6 +30,50 @@ import {
 	AchievementValue,
 	Divider,
 } from "../component/common/pageCommon";
+
+const CheckboxContainer = styled.div`
+	position: absolute;
+	bottom: -150px;
+	align-item: center;
+	display: block;
+
+	font-weight: 600;
+	font: 1.15rem;
+	text-align: center;
+	gap: 10px;
+	line-height: 50px;
+	p {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 10px;
+	}
+	@media (max-width: 840px) {
+		display: none;
+	}
+`;
+
+const Checkbox = styled.input.attrs({ type: "checkbox" })`
+	width: 20px;
+	height: 20px;
+	background-color: #7a40f2;
+	border: 2px solid #7a40f2;
+	border-radius: 5px;
+	appearance: none;
+	cursor: pointer;
+
+	&:checked {
+		background-color: #7a40f2;
+	}
+	&:checked::after {
+		content: "✔";
+		color: white;
+		font-size: 14px;
+		position: relative;
+		top: -2px;
+		left: 3px;
+	}
+`;
 
 export default function CounselorPage() {
 	const [data, setData] = useState<ReportData | null>(null);
@@ -176,6 +221,13 @@ export default function CounselorPage() {
 			) : (
 				<p>데이터가 없습니다.</p>
 			)}
+			<CheckboxContainer>
+				<p>Once sent, the report is final and cannot be retrieved. The counselor is solely responsible for any incorrections in the report.</p>
+				<p>
+					{" "}
+					<Checkbox /> I agree to the above.
+				</p>
+			</CheckboxContainer>
 		</Container>
 	);
 }

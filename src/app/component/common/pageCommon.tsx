@@ -21,6 +21,7 @@ export const theme = {
 
 export const Container = styled.div`
 	padding: ${theme.padding};
+	position: relative;
 `;
 export const GridContainer = styled.div`
 	display: grid;

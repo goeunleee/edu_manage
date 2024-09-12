@@ -27,6 +27,7 @@ const Wrapper = styled.div`
 	background-color: ${({ theme }) => theme.colors.background};
 	min-height: 100vh;
 	padding-top: 5rem;
+	padding-bottom: 8rem;
 `;
 
 const Title = styled.h1<{ isMobile: boolean }>`
@@ -51,7 +52,7 @@ const ContentContainer = styled.div<{ isMobile: boolean }>`
 	margin: ${({ isMobile, theme }) => (!isMobile ? `2.5rem 1.875rem 3rem ${theme.sizes.desktopMarginLeft}` : "2rem auto")};
 
 	@media (max-width: ${({ theme }) => theme.media.mobileBreakpoint}) {
-		margin: 3rem auto;
+		// margin: 3rem auto;
 		background-color: ${({ theme }) => theme.colors.background};
 	}
 `;

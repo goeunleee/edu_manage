@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import type { Metadata } from "next";
-import localFont from "next/font/local";
+
 import "./globals.css";
 import ContentWrapper from "./component/ContentWrapper";
 
@@ -17,7 +17,9 @@ export default function RootLayout({
 	return (
 		<html lang="en">
 			<body>
-				<ContentWrapper>{children}</ContentWrapper>
+				<ContentWrapper isSidebarOpen={false} isMobile={false}>
+					{children}
+				</ContentWrapper>
 			</body>
 		</html>
 	);

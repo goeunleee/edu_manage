@@ -1,4 +1,9 @@
+"use client";
+
+import { useState, useEffect } from "react";
 import styled from "styled-components";
+import { getStudentData } from "../api/api";
+import { ReportData } from "../type/commonApi";
 
 const theme = {
 	colors: {
@@ -122,18 +127,85 @@ const ActivityContainer = styled.div`
 	background: ${theme.colors.background};
 	border: 1px solid ${theme.colors.border};
 	border-radius: ${theme.borderRadius};
-	padding: 40px;
+	padding: 30px 50px;
+
+	@media (max-width: 840px) {
+		padding: 20px;
+
+		.title {
+			font-size: 1.125rem; /* 18px */
+		}
+	}
+
+	.title {
+		display: flex;
+		font-size: 1.25rem; /* 20px */
+		font-weight: bold;
+		gap: 10px;
+	}
+`;
+const NumberBox = styled.div`
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	padding: 2px 7px;
+	gap: 10px;
+
+	width: 27px;
+	height: 28px;
+	background: #7a40f2;
+	border-radius: 3px;
+	color: #ffffff;
 `;
 
-// Label 데이터
-const fieldLabels = ["Title", "Counselor", "Received Date"];
-const achievementLabels = ["✍️ Writing Competition", "🏆 Competition", "🏫 Pre-College", "💼 Internship", "⛑️ Volunteer", "🔎 Research"];
-
-// Value 데이터
-const fieldValues = ["EC report", "Alice", "Aug 23, 2024"];
-const achievementValues = ["-", "2", "-", "-", "-", "-"];
-
 export default function StudentPage() {
+	const [data, setData] = useState<ReportData | null>(null);
+	const [error, setError] = useState<Error | null>(null);
+	const [loading, setLoading] = useState<boolean>(true);
+
+	useEffect(() => {
+		const fetchData = async () => {
+			try {
+				const result = await getStudentData();
+				console.log(result);
+				setData(result.data);
+			} catch (err) {
+				setError(err as Error);
+			} finally {
+				setLoading(false);
+			}
+		};
+
+		fetchData();
+	}, []);
+
+	if (loading) {
+		return <div>data load...</div>;
+	}
+
+	if (error) {
+		console.log(error);
+		return <div>데이터를 가져올 수 없습니다</div>;
+	}
+
+	const fieldLabels = ["Title", "Counselor", "Received Date"];
+	const fieldValues = [data?.title || "-", data?.counselor?.name || "-", data?.send_dt.slice(0, 10) || "-"];
+	const achievementLabels = ["✍️ Writing Competition", "🏆 Competition", "🏫 Pre-College", "💼 Internship", "⛑️ Volunteer", "🔎 Research"];
+	const achievementValues = ["-", "-", "-", "-", "-", "-"];
+
+	const activity =
+		data?.ec_report_items.map((item) => ({
+			programName: item.ec_db.name,
+			organization: item.ec_db.organization,
+			type: item.ec_db.ec_type,
+			participationWay: item.ec_db.participate_way.join(", "),
+			recognitionLevel: item.ec_db.recognition_level,
+			nationality: item.ec_db.nationality,
+			gradeLimit: item.ec_db.grade_limit.join(", "),
+			ageLimit: item.ec_db.age_limit.join(", "),
+		})) ?? [];
+
 	return (
 		<Container>
 			<GridContainer>
@@ -145,7 +217,7 @@ export default function StudentPage() {
 				))}
 			</GridContainer>
 
-			<Label>Total : {achievementLabels.length}</Label>
+			<Label>Total: {achievementLabels.length}</Label>
 			<AchievementsContainer>
 				{[0, 2, 4].map((startIndex) => (
 					<AchievementColumn key={startIndex}>
@@ -162,9 +234,26 @@ export default function StudentPage() {
 				))}
 			</AchievementsContainer>
 
-			<ActivityContainer>
-				<HorizontalDashDivider />
-			</ActivityContainer>
+			{activity.length > 0 ? (
+				activity.map((item, index) => (
+					<ActivityContainer key={index}>
+						<span className="title">
+							<NumberBox>{index + 1} </NumberBox>
+							{item.programName}
+						</span>
+						<p>{item.organization}</p>
+						<HorizontalDashDivider />
+						<p>타입: {item.type}</p>
+						<p>참여방식: {item.participationWay}</p>
+						<p>인정 수준: {item.recognitionLevel}</p>
+						<p>국적: {item.nationality}</p>
+						<p>학년: {item.gradeLimit}</p>
+						<p>나이: {item.ageLimit}</p>
+					</ActivityContainer>
+				))
+			) : (
+				<p>데이터가 없습니다.</p>
+			)}
 		</Container>
 	);
 }

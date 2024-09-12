@@ -15,13 +15,11 @@ import {
 	ActivityContainer,
 	NumberBox,
 	Visit_Icon,
-	PrimaryPCButton,
 	HorizontalDivider,
 	GridWrapper,
 	ActivityBox,
 	Filter,
 	Check,
-	PrimaryMobileButton,
 	DarkMobileButton,
 	Achievement,
 	AchievementColumn,
@@ -59,7 +57,7 @@ const Checkbox = styled.input.attrs({ type: "checkbox" })`
 	background-color: #7a40f2;
 	border: 2px solid #7a40f2;
 	border-radius: 5px;
-	appearance: none;
+	// appearance: none;
 	cursor: pointer;
 
 	&:checked {

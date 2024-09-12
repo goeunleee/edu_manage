@@ -29,7 +29,6 @@ import {
 	Divider,
 	AchievementValue,
 } from "../component/common/pageCommon";
-import { styled } from "styled-components";
 
 export default function StudentPage() {
 	const [data, setData] = useState<ReportData | null>(null);

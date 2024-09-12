@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import type { Metadata } from "next";
+import localFont from "next/font/local";
 import "./globals.css";
 import ContentWrapper from "./component/ContentWrapper";
 
@@ -16,9 +17,7 @@ export default function RootLayout({
 	return (
 		<html lang="en">
 			<body>
-				<ContentWrapper>
-					{children} {/* 이 부분은 서버 컴포넌트로 작성 가능 */}
-				</ContentWrapper>
+				<ContentWrapper>{children}</ContentWrapper>
 			</body>
 		</html>
 	);

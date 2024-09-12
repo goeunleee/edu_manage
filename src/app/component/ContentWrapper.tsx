@@ -44,14 +44,15 @@ const Title = styled.h1<{ isMobile: boolean }>`
 `;
 
 const ContentContainer = styled.div<{ isMobile: boolean }>`
-	background-color: ${({ theme }) => theme.colors.containerBg};
+	background-color: ${({ isMobile, theme }) => (!isMobile ? theme.colors.containerBg : theme.colors.background)};
 	max-width: ${({ isMobile, theme }) => (!isMobile ? theme.sizes.desktopMaxWidth : theme.sizes.mobileMaxWidth)};
 	border-radius: 10px;
 	padding: ${({ theme }) => theme.sizes.padding};
-	margin: ${({ isMobile, theme }) => (!isMobile ? `2.5rem 1.875rem 0 ${theme.sizes.desktopMarginLeft}` : "2rem auto")};
+	margin: ${({ isMobile, theme }) => (!isMobile ? `2.5rem 1.875rem 3rem ${theme.sizes.desktopMarginLeft}` : "2rem auto")};
 
 	@media (max-width: ${({ theme }) => theme.media.mobileBreakpoint}) {
 		margin: 3rem auto;
+		background-color: ${({ theme }) => theme.colors.background};
 	}
 `;
 

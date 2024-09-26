@@ -1,7 +1,7 @@
 ## 배포 주소
 
 - [https://edu-management-qkpu.vercel.app/]
-
+- 모바일/ 웹 반응형으로 구현했습니다. 
 ## 사용 기술
 
 - Next.js : SPA 페이지로 제작되었습니다. (app router 형식 적용)
